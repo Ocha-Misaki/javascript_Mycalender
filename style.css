@@ -1,25 +1,41 @@
 @charset "utf-8";
 body{
+  font-family: 'Courier New', Courier, monospace;
+  font-size: 14px;
   width: 300px;
   margin: 60px auto;
 }
-div{
-  background-color: gainsboro;
-  text-align: center;
+table{
+  border-collapse: collapse;
+  border: 2px solid #eee;
 }
-td, tr{
-  background-color: white;
-  width: 40px;
-  height: 40px;
-  text-align: center;
+thead,
+tfoot{
+  background: #eee;
 }
-th{
-  background-color: gainsboro;
+th, td{
+  padding: 8px;
+  text-align: center;
 }
 button{
   all: unset;
 }
-
 #leftButton, #rightButton, button{
   cursor: pointer;
+  user-select: none;
+}
+tbody td:first-child{
+  color: red;
+}
+tbody td:last-child{
+  color: blue;
+}
+tfoot{
+  font-weight: bold;
+}
+td.disabled{
+  opacity: 0.3;
+}
+td.today{
+  font-weight: bold;
 }
