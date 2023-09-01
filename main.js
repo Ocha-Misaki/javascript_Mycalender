@@ -22,20 +22,47 @@
   };
 
   const createCalenderBody = (targetDate) => {
-    const lastDate = getEndOfMonth(targetDate);
+    const endOfMonth = getEndOfMonth(targetDate);
+    const lastDateOfMonth = endOfMonth.getDate();
     const startOfMonth = getStartOfMonth(targetDate);
     const startOfMonthDay = startOfMonth.getDay();
 
-    let date = 1;
     const endOfLastMonth = getEndOfLastMonth(targetDate);
     let lastMonthLastDate = endOfLastMonth.getDate();
     const lastMonthLastDay = endOfLastMonth.getDay();
 
+    renderCalender(
+      lastDateOfMonth,
+      startOfMonthDay,
+      lastMonthLastDate,
+      lastMonthLastDay
+    );
+  };
+
+  const getEndOfMonth = (targetDate) => {
+    targetDate.setMonth(targetDate.getMonth() + 1, 0);
+    return targetDate;
+  };
+  const getEndOfLastMonth = (targetDate) => {
+    targetDate.setMonth(targetDate.getMonth(), 0);
+    return targetDate;
+  };
+  const getStartOfMonth = (targetDate) => {
+    targetDate.setMonth(targetDate.getMonth(), 1);
+    return targetDate;
+  };
+  const renderCalender = (
+    lastDateOfMonth,
+    startOfMonthDay,
+    lastMonthLastDate,
+    lastMonthLastDay
+  ) => {
+    let date = 1;
     for (let row = 0; row < 5; row++) {
       const tr = document.createElement("tr");
       for (let col = 0; col < 7; col++) {
         const td = document.createElement("td");
-        if (date > lastDate) {
+        if (date > lastDateOfMonth) {
           date = 1;
         }
         if (row < 1 && col >= startOfMonthDay) {
@@ -52,19 +79,6 @@
       }
       tbody.appendChild(tr);
     }
-  };
-
-  const getEndOfMonth = (targetDate) => {
-    targetDate.setMonth(targetDate.getMonth() + 1, 0);
-    return targetDate;
-  };
-  const getEndOfLastMonth = (targetDate) => {
-    targetDate.setMonth(targetDate.getMonth(), 0);
-    return targetDate;
-  };
-  const getStartOfMonth = (targetDate) => {
-    targetDate.setMonth(targetDate.getMonth(), 1);
-    return targetDate;
   };
 
   let month = new Date().getMonth() + 1;
