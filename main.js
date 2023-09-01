@@ -1,15 +1,14 @@
 "use strict";
 {
-  const createCalender = (thisMonth) => {
+  const createCalender = (targetDate) => {
     clearCalender();
-    createCalenderHeader(thisMonth);
-    createCalenderBody(thisMonth);
+    createCalenderHeader(targetDate);
+    createCalenderBody(targetDate);
   };
 
-  const createCalenderHeader = (thisMonth) => {
-    debugger;
-    const todaysYear = thisMonth.getFullYear();
-    const todaysMonth = thisMonth.getMonth() + 1;
+  const createCalenderHeader = (targetDate) => {
+    const todaysYear = targetDate.getFullYear();
+    const todaysMonth = targetDate.getMonth() + 1;
     const calenderTitle = document.getElementById("calender_title");
     calenderTitle.textContent =
       `${todaysYear}` + " / " + `${todaysMonth}`.padStart(2, "0");
@@ -22,18 +21,19 @@
     }
   };
 
-  const createCalenderBody = (thisMonth) => {
+  const createCalenderBody = (targetDate) => {
     //月末の日付を取得する
-    thisMonth.setMonth(thisMonth.getMonth() + 1, 0);
-    const lastDate = thisMonth.getDate();
+    targetDate.setMonth(targetDate.getMonth() + 1, 0);
+    const lastDate = targetDate.getDate();
     //月初の曜日を取得する
-    thisMonth.setMonth(thisMonth.getMonth(), 1);
-    const beginningOfMonthDay = thisMonth.getDay();
+    targetDate.setMonth(targetDate.getMonth(), 1);
+    const beginningOfMonthDay = targetDate.getDay();
 
     let date = 1;
-    thisMonth.setMonth(thisMonth.getMonth(), 0);
-    let lastMonthLastDate = thisMonth.getDate();
-    let lastMonthLastDay = thisMonth.getDay();
+    //this.Monthを起点に0を指定すると先月
+    targetDate.setMonth(targetDate.getMonth(), 0);
+    let lastMonthLastDate = targetDate.getDate();
+    let lastMonthLastDay = targetDate.getDay();
 
     for (let row = 0; row < 5; row++) {
       const tr = document.createElement("tr");
