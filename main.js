@@ -22,12 +22,8 @@
   };
 
   const createCalenderBody = (targetDate) => {
-    //月末の日付を取得する
     const lastDate = getEndOfMonth(targetDate);
-    //月初の曜日を取得する
-
     const startOfMonth = getStartOfMonth(targetDate);
-    console.log(startOfMonth);
     const startOfMonthDay = startOfMonth.getDay();
 
     let date = 1;
@@ -102,5 +98,7 @@
   const todayButtonElement = document.querySelector("button");
   todayButtonElement.addEventListener("click", () => {
     createCalender(new Date());
+    month = new Date().getMonth();
+    year = new Date().getFullYear();
   });
 }
