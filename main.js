@@ -26,7 +26,6 @@
     const lastDateOfMonth = endOfMonth.getDate();
     const startOfMonth = getStartOfMonth(targetDate);
     const startOfMonthDay = startOfMonth.getDay();
-
     const endOfLastMonth = getEndOfLastMonth(targetDate);
     let lastMonthLastDate = endOfLastMonth.getDate();
     const lastMonthLastDay = endOfLastMonth.getDay();
@@ -81,8 +80,8 @@
     }
   };
 
-  let month = new Date().getMonth() + 1;
   let year = new Date().getFullYear();
+  let month = new Date().getMonth() + 1;
   createCalender(new Date(`${year}-${month}`));
 
   //左ボタンを押した時の実装
@@ -102,7 +101,6 @@
     month++;
     if (month > 12) {
       year++;
-      console.log(year);
       month = 1;
     }
     createCalender(new Date(`${year}-${month}`));
@@ -112,7 +110,7 @@
   const todayButtonElement = document.querySelector("button");
   todayButtonElement.addEventListener("click", () => {
     createCalender(new Date());
-    month = new Date().getMonth();
     year = new Date().getFullYear();
+    month = new Date().getMonth() + 1;
   });
 }
