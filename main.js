@@ -23,17 +23,17 @@
 
   const createCalenderBody = (targetDate) => {
     //月末の日付を取得する
-    targetDate.setMonth(targetDate.getMonth() + 1, 0);
-    const lastDate = targetDate.getDate();
+    const lastDate = getEndOfMonth(targetDate);
     //月初の曜日を取得する
-    targetDate.setMonth(targetDate.getMonth(), 1);
-    const beginningOfMonthDay = targetDate.getDay();
+
+    const startOfMonth = getStartOfMonth(targetDate);
+    console.log(startOfMonth);
+    const startOfMonthDay = startOfMonth.getDay();
 
     let date = 1;
-    //this.Monthを起点に0を指定すると先月
-    targetDate.setMonth(targetDate.getMonth(), 0);
-    let lastMonthLastDate = targetDate.getDate();
-    let lastMonthLastDay = targetDate.getDay();
+    const endOfLastMonth = getEndOfLastMonth(targetDate);
+    let lastMonthLastDate = endOfLastMonth.getDate();
+    const lastMonthLastDay = endOfLastMonth.getDay();
 
     for (let row = 0; row < 5; row++) {
       const tr = document.createElement("tr");
@@ -42,10 +42,10 @@
         if (date > lastDate) {
           date = 1;
         }
-        if (row < 1 && col >= beginningOfMonthDay) {
+        if (row < 1 && col >= startOfMonthDay) {
           td.textContent = date;
           date++;
-        } else if (row < 1 && col < beginningOfMonthDay) {
+        } else if (row < 1 && col < startOfMonthDay) {
           td.textContent = lastMonthLastDate - lastMonthLastDay;
           lastMonthLastDate++;
         } else if (row > 0) {
@@ -56,6 +56,19 @@
       }
       tbody.appendChild(tr);
     }
+  };
+
+  const getEndOfMonth = (targetDate) => {
+    targetDate.setMonth(targetDate.getMonth() + 1, 0);
+    return targetDate;
+  };
+  const getEndOfLastMonth = (targetDate) => {
+    targetDate.setMonth(targetDate.getMonth(), 0);
+    return targetDate;
+  };
+  const getStartOfMonth = (targetDate) => {
+    targetDate.setMonth(targetDate.getMonth(), 1);
+    return targetDate;
   };
 
   let month = new Date().getMonth() + 1;
