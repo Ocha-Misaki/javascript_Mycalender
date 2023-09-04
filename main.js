@@ -49,16 +49,105 @@
   const getStartOfMonth = (targetDate) => {
     targetDate.setMonth(targetDate.getMonth(), 1);
     return targetDate;
+
   };
+
+  // 
+    // lastDateOfMonth,  // 今月の最終日
+    // startOfMonthDay,  // 今月の開始曜日
+    // lastMonthLastDate,// 先月の最終日
+    // lastMonthLastDay  // 先月の最終曜日
+  const createWeeks = (
+    lastDateOfMonth,  // 今月の最終日
+    startOfMonthDay,  // 今月の開始曜日
+    lastMonthLastDate,// 先月の最終日
+    lastMonthLastDay  // 先月の最終曜日
+  ) => {
+    // 先月の描画中かどうか
+    const isSunday = (startOfMonthDay) => {
+      startOfMonthDay === 0
+    }
+    // 条件 ? 満たすとき : 満たさないとき
+    let isRenderLastMonth = isSunday() ? false : true
+    let date = startOfMonthDay === 0 ? 1 : lastMonthLastDate - lastMonthLastDay
+    
+    let day = 0
+    let week = 0
+    let weeks = []    
+    while (1) {
+      // １日が日曜だったら
+      if (weeks[week] === undefined) {
+        weeks[week] = []
+      }
+      weeks[week][day] = date
+
+      date++
+      day++
+      if (day === 7) {
+        day = 0
+        week++
+      }
+
+      // 終了条件
+      // weeks[week] の中に　lastDateOfMonth が含まれていれば
+      if (!isRenderLastMonth && weeks[week].includes(lastDateOfMonth)) {
+        break
+      }
+      
+      // （先月の最終日）を超えたら
+      if (isRenderLastMonth) {
+        if (date > lastMonthLastDate){
+          date = 1
+          isRenderLastMonth = false
+        }
+      }
+      // （今月の最終日）を超えたら
+      else {
+        if (date > lastDateOfMonth) {
+          date = 1
+        }
+      }
+    }    
+    return weeks
+  }
   const renderCalender = (
-    lastDateOfMonth,
-    startOfMonthDay,
-    lastMonthLastDate,
-    lastMonthLastDay
+    lastDateOfMonth,  // 今月の最終日
+    startOfMonthDay,  // 今月の開始曜日
+    lastMonthLastDate,// 先月の最終日
+    lastMonthLastDay  // 先月の最終曜日
   ) => {
     let date = 1;
+    
+    const weeks = createWeeks(
+      lastDateOfMonth,
+    startOfMonthDay,
+    lastMonthLastDate,
+    lastMonthLastDay 
+    )
+    console.table(weeks);
+    return 
+    // 週を描画する
     for (let row = 0; row < 5; row++) {
       const tr = document.createElement("tr");
+      
+      // weeks[][] = weeks[0][0]  
+      // weeks.length === 描画する行数
+      
+      // week = [0,1,2]
+      // week[0] == [0,1,2]
+      // week[0][1] == 1
+      
+
+      // [0] [30,1,2,3,4,5,6]
+      // [1] [7,8,9,10,11,12,13]
+      // [2] [...]
+      // [3] [...]
+      // [4] [...]
+      // [5] [...]
+
+      renderWeek([30,1,2,3,4,5,6])
+      renderWeek([7,8,9,10,11,12,13])
+      // 日を描画する
       for (let col = 0; col < 7; col++) {
         const td = document.createElement("td");
         if (date > lastDateOfMonth) {
