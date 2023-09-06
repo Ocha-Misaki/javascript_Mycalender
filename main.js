@@ -29,12 +29,14 @@
     const endOfLastMonth = getEndOfLastMonth(targetDate)
     let lastMonthLastDate = endOfLastMonth.getDate()
     const lastMonthLastDay = endOfLastMonth.getDay()
+    const month = targetDate.getMonth()
 
     renderCalender(
       lastDateOfMonth,
       startOfMonthDay,
       lastMonthLastDate,
-      lastMonthLastDay
+      lastMonthLastDay,
+      month
     )
   }
 
@@ -71,7 +73,15 @@
       if (weeks[week] === undefined) {
         weeks[week] = []
       }
-      weeks[week][day] = date
+      //今日の判定をする
+
+      const todayDate = new Date().getDate()
+      const todayMonth = new Date().getMonth()
+      if (date == todayDate && todayMonth == month) {
+        weeks[week][day] = date * -1
+      } else {
+        weeks[week][day] = date
+      }
 
       date++ //日付の部分 27,28,29,30,31,1...
       day++ //曜日。日〜土
@@ -106,13 +116,15 @@
     lastDateOfMonth, // 今月の最終日
     startOfMonthDay, // 今月の開始曜日
     lastMonthLastDate, // 先月の最終日
-    lastMonthLastDay // 先月の最終曜日
+    lastMonthLastDay, // 先月の最終曜日
+    month
   ) => {
     const weeks = createWeeks(
       lastDateOfMonth,
       startOfMonthDay,
       lastMonthLastDate,
-      lastMonthLastDay
+      lastMonthLastDay,
+      month
     )
 
     // 週を描画する
@@ -122,7 +134,10 @@
       // 日を描画する
       for (let day = 0; day < weeks[week].length; day++) {
         const td = document.createElement('td')
-        td.textContent = weeks[week][day]
+        td.textContent = Math.abs(weeks[week][day])
+        if (weeks[week][day] < 0) {
+          td.classList.add('today')
+        }
         tr.appendChild(td)
       }
       tbody.appendChild(tr)
@@ -130,36 +145,36 @@
   }
 
   let year = new Date().getFullYear()
-  let month = new Date().getMonth() + 1
-  createCalender(new Date(`${year}-${month}`))
+  let month = new Date().getMonth()
+  createCalender(new Date())
 
   //左ボタンを押した時の実装
   const leftButtonElement = document.getElementById('leftButton')
   leftButtonElement.addEventListener('click', () => {
     month--
-    if (month < 1) {
+    if (month < 0) {
       year--
-      month = 12
+      month = 11
     }
-    createCalender(new Date(`${year}-${month}`))
+    createCalender(new Date(year, month))
   })
 
   //右ボタンを押した時の実装
   const rightButtonElement = document.getElementById('rightButton')
   rightButtonElement.addEventListener('click', () => {
     month++
-    if (month > 12) {
+    if (month > 11) {
       year++
-      month = 1
+      month = 0
     }
-    createCalender(new Date(`${year}-${month}`))
+    createCalender(new Date(year, month))
   })
 
   //todayボタンを押した時の実装
   const todayButtonElement = document.querySelector('button')
   todayButtonElement.addEventListener('click', () => {
-    createCalender(new Date())
     year = new Date().getFullYear()
-    month = new Date().getMonth() + 1
+    month = new Date().getMonth()
+    createCalender(new Date(year, month))
   })
 }
