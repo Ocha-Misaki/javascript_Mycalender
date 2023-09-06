@@ -30,13 +30,15 @@
     let lastMonthLastDate = endOfLastMonth.getDate()
     const lastMonthLastDay = endOfLastMonth.getDay()
     const month = targetDate.getMonth()
+    const year = targetDate.getFullYear()
 
     renderCalender(
       lastDateOfMonth,
       startOfMonthDay,
       lastMonthLastDate,
       lastMonthLastDay,
-      month
+      month,
+      year
     )
   }
 
@@ -77,7 +79,8 @@
 
       const todayDate = new Date().getDate()
       const todayMonth = new Date().getMonth()
-      if (date == todayDate && todayMonth == month) {
+      const todayYear = new Date().getFullYear()
+      if (date == todayDate && todayMonth == month && todayYear == year) {
         weeks[week][day] = date * -1
       } else {
         weeks[week][day] = date
